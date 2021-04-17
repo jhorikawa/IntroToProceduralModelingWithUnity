@@ -265,7 +265,7 @@ private void CreateSphere(Vector3 center, float rad)
  
  ## 全コード
  
-```charp
+```csharp
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
