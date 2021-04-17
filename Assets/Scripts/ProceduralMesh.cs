@@ -35,6 +35,7 @@ public class ProceduralMesh : MonoBehaviour
     {
         int res = 16;
         List<Vector3> vertexList = new List<Vector3>();
+        List<Vector2> uvList = new List<Vector2>();
         for (int i = 0; i < res; i++) {
             var ang1 = Mathf.PI * i / (float)(res - 1);
             var x1 = Mathf.Cos(ang1) * rad;
@@ -49,6 +50,8 @@ public class ProceduralMesh : MonoBehaviour
 
                 var vert = new Vector3(x2, y2, z2);
                 vertexList.Add(vert);
+                Vector2 uv = new Vector2(ang1 / Mathf.PI, ang2 / (Mathf.PI * 2f));
+                uvList.Add(uv);
             }
         }
 
@@ -74,7 +77,7 @@ public class ProceduralMesh : MonoBehaviour
             }
         }
 
-        CreateMesh(vertexList.ToArray(), triangles.ToArray());
+        CreateMesh(vertexList.ToArray(), triangles.ToArray(), uvList.ToArray());
 
     }
 
@@ -96,14 +99,23 @@ public class ProceduralMesh : MonoBehaviour
             0,2,3
         };
 
-        CreateMesh(vertices, triangles);
+        Vector2[] uv = new Vector2[]
+        {
+            new Vector2(0.0f, 0.0f),
+            new Vector2(1.0f, 0.0f),
+            new Vector2(1.0f, 1.0f),
+            new Vector2(0.0f, 1.0f)
+        };
+
+        CreateMesh(vertices, triangles, uv);
     }
 
-    private void CreateMesh(Vector3[] vertices, int[] triangles)
+    private void CreateMesh(Vector3[] vertices, int[] triangles, Vector2[] uv)
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
+        mesh.uv = uv;
         mesh.RecalculateNormals();
 
         meshes.Add(mesh);
@@ -164,7 +176,6 @@ public class ProceduralMesh : MonoBehaviour
         }
         msh.vertices = newVertices;
         msh.RecalculateNormals();
-
     }
 
     
